@@ -5,7 +5,7 @@
 // Description:
 //
 // Modification history:
-// Kechris Nikolaos 09/05/2017: Initial design.
+// Kechris Nikolaos 09/05/2017: Initial design. oooooohhh
 //
 //******************************************************************************
 
