@@ -1,3 +1,14 @@
+//******************************************************************************
+//
+// Unit name: mainwindow.cpp
+// Author Nikolaos Kechris
+// Description:
+//
+// Modification history:
+// Kechris Nikolaos 09/05/2017: Initial design.
+//
+//******************************************************************************
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "N_SOCKET.h"

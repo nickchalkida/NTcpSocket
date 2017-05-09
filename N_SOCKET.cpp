@@ -1,25 +1,11 @@
 //******************************************************************************
 //
-// Copyright (c) 2014-2015 by  Intralot  S.A. All Rights Reserved. The software,
-// data, and  information  contained  herein  are  proprietary  to, and comprise
-// valuable  trade  secrets  of,  Intralot  S.A.  which  intends  to  keep  them
-// confidential  and  to  preserve them as trade secrets. Copies are provided in
-// confidence by Intralot S.A., pursuant to a written license agreement, and may
-// be used, copied, transmitted, and stored only in accordance with the terms of
-// such a license. No title of such a license is transferable.
-//
-//                                       Intralot S.A.
-//                                       64, Kifissias Ave. & 3, Premetis Str.
-//                                       Athens, 15125 Greece
-//                                       Phone : (+30) 210 615 6000
-//                                       Fax: (+30) 210 610 6800
-//                                       E-mail:info@intralot.com
-//
 // Unit name: N_SOCKET.cpp
+// Author Nikolaos Kechris
 // Description:
 //
 // Modification history:
-// Kechris Nikolaos 24/04/2015: Initial design.
+// Kechris Nikolaos 09/05/2017: Initial design.
 //
 //******************************************************************************
 
