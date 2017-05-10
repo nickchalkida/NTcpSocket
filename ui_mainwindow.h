@@ -35,9 +35,12 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout_3;
     QPushButton *pushButtonSend;
+    QLineEdit *lineEdit_Times;
+    QPushButton *pushButton_Clear;
     QSpacerItem *verticalSpacer;
     QLineEdit *lineEditRIP;
     QPushButton *pushButtonStartListen;
+    QPushButton *pushButton_ChangePorts;
     QVBoxLayout *verticalLayout_4;
     QVBoxLayout *verticalLayout;
     QLineEdit *lineEdit;
@@ -58,7 +61,7 @@ public:
         QBrush brush(QColor(217, 217, 217, 255));
         brush.setStyle(Qt::SolidPattern);
         palette.setBrush(QPalette::Active, QPalette::Base, brush);
-        QBrush brush1(QColor(240, 234, 157, 255));
+        QBrush brush1(QColor(0, 170, 255, 255));
         brush1.setStyle(Qt::SolidPattern);
         palette.setBrush(QPalette::Active, QPalette::Window, brush1);
         palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
@@ -86,6 +89,23 @@ public:
 
         verticalLayout_3->addWidget(pushButtonSend);
 
+        lineEdit_Times = new QLineEdit(centralWidget);
+        lineEdit_Times->setObjectName(QStringLiteral("lineEdit_Times"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(lineEdit_Times->sizePolicy().hasHeightForWidth());
+        lineEdit_Times->setSizePolicy(sizePolicy1);
+
+        verticalLayout_3->addWidget(lineEdit_Times);
+
+        pushButton_Clear = new QPushButton(centralWidget);
+        pushButton_Clear->setObjectName(QStringLiteral("pushButton_Clear"));
+        sizePolicy1.setHeightForWidth(pushButton_Clear->sizePolicy().hasHeightForWidth());
+        pushButton_Clear->setSizePolicy(sizePolicy1);
+
+        verticalLayout_3->addWidget(pushButton_Clear);
+
         verticalSpacer = new QSpacerItem(20, 268, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_3->addItem(verticalSpacer);
@@ -103,6 +123,13 @@ public:
         pushButtonStartListen->setSizePolicy(sizePolicy);
 
         verticalLayout_3->addWidget(pushButtonStartListen);
+
+        pushButton_ChangePorts = new QPushButton(centralWidget);
+        pushButton_ChangePorts->setObjectName(QStringLiteral("pushButton_ChangePorts"));
+        sizePolicy1.setHeightForWidth(pushButton_ChangePorts->sizePolicy().hasHeightForWidth());
+        pushButton_ChangePorts->setSizePolicy(sizePolicy1);
+
+        verticalLayout_3->addWidget(pushButton_ChangePorts);
 
 
         gridLayout->addLayout(verticalLayout_3, 0, 0, 1, 1);
@@ -132,19 +159,19 @@ public:
         verticalLayout_2->setSizeConstraint(QLayout::SetFixedSize);
         lineEditRPort = new QLineEdit(centralWidget);
         lineEditRPort->setObjectName(QStringLiteral("lineEditRPort"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(lineEditRPort->sizePolicy().hasHeightForWidth());
-        lineEditRPort->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(lineEditRPort->sizePolicy().hasHeightForWidth());
+        lineEditRPort->setSizePolicy(sizePolicy2);
         lineEditRPort->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_2->addWidget(lineEditRPort);
 
         lineEditLPort = new QLineEdit(centralWidget);
         lineEditLPort->setObjectName(QStringLiteral("lineEditLPort"));
-        sizePolicy1.setHeightForWidth(lineEditLPort->sizePolicy().hasHeightForWidth());
-        lineEditLPort->setSizePolicy(sizePolicy1);
+        sizePolicy2.setHeightForWidth(lineEditLPort->sizePolicy().hasHeightForWidth());
+        lineEditLPort->setSizePolicy(sizePolicy2);
         lineEditLPort->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_2->addWidget(lineEditLPort);
@@ -176,8 +203,12 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         pushButtonSend->setText(QApplication::translate("MainWindow", "Send Message", Q_NULLPTR));
+        lineEdit_Times->setText(QApplication::translate("MainWindow", "100", Q_NULLPTR));
+        pushButton_Clear->setText(QApplication::translate("MainWindow", "Clear", Q_NULLPTR));
         lineEditRIP->setText(QApplication::translate("MainWindow", "192.168.0.232", Q_NULLPTR));
         pushButtonStartListen->setText(QApplication::translate("MainWindow", "Start Listen", Q_NULLPTR));
+        pushButton_ChangePorts->setText(QApplication::translate("MainWindow", "Change Ports", Q_NULLPTR));
+        lineEdit->setText(QApplication::translate("MainWindow", "This is an example text", Q_NULLPTR));
         lineEditRPort->setText(QApplication::translate("MainWindow", "8060", Q_NULLPTR));
         lineEditLPort->setText(QApplication::translate("MainWindow", "8010", Q_NULLPTR));
     } // retranslateUi

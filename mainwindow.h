@@ -12,8 +12,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QListWidgetItem>
-
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -26,19 +25,17 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-signals:
-    mynewsignal1();
 public slots:
     void on_pushButtonSend_clicked();
-
     void on_pushButtonStartListen_clicked();
-
-    void mynewslot1(QVariant item);
-
-
+    void MessageSlot(QString item);
+private slots:
+    void on_pushButton_Clear_clicked();
+    void on_pushButton_ChangePorts_clicked();
 
 private:
     Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
+

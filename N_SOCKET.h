@@ -25,21 +25,8 @@
 #include <QListView>
 #include <QDebug>
 
-class Message : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString author READ author WRITE setAuthor NOTIFY authorChanged)
-public:
-    void addListData(const QString &a);
-    void setAuthor(const QString &a);
-    QString author();
-    Q_INVOKABLE void myfunc();
-signals:
-    void authorChanged();
-    void addListViewData(QVariant lvdata);
-private:
-    QString m_author;
-};
+class MainWindow;
+
 
 class LISTENS_THREAD : public QThread
 {
@@ -51,9 +38,13 @@ protected:
     void run();
 };
 
+
 class SERVICE_THREAD : public QThread
 {
     Q_OBJECT
+
+signals:
+    void SendSomeData(QString data);
 protected:
     void run();
 };
@@ -72,7 +63,7 @@ public :
 	~NSOCKET();
     Q_INVOKABLE int InitSocket(QString CP, int lp, int rp);
     Q_INVOKABLE int Send_Message(QString, QString, int);
-    Q_INVOKABLE int StartListenService();
+    Q_INVOKABLE int StartListenService(MainWindow *);
 
 };
 

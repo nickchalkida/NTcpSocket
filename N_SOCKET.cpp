@@ -9,6 +9,7 @@
 //
 //******************************************************************************
 
+#include "mainwindow.h"
 #include "N_SOCKET.h"
 
 //*****************************************************************************
@@ -19,30 +20,8 @@ QMutex process_mutex;
 bool server_started;
 bool server_finished;
 
-extern Message *neomessage;
-
 QString local_ipAddress;
 int local_port;
-
-void Message::setAuthor(const QString &a) {
-    if (a != m_author) {
-        m_author = a;
-        emit authorChanged();
-    }
-}
-
-QString Message::author() {
-    return m_author;
-}
-
-void Message::myfunc(){
-    QMessageBox::information(NULL, "Hello World!", "Hi! LISTENS_THREAD");
-}
-
-void Message::addListData(const QString &a) {
- qDebug() << "addListViewData";
-    emit addListViewData(a);
-}
 
 
 //*****************************************************************************
@@ -54,25 +33,22 @@ void LISTENS_THREAD::run()
     qDebug() << "LISTENS_THREAD Started";
     tcp_server = new QTcpServer();
 
-    //QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-    // use the first non-localhost IPv4 address
-    for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
-            ipAddressesList.at(i).toIPv4Address()) {
-            local_ipAddress = ipAddressesList.at(i).toString();
-            qDebug() << "local_ipAddress = " << local_ipAddress;
-            break;
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)){
+            local_ipAddress = address.toString();
+            qDebug() << local_ipAddress;
+            //break;
         }
     }
+
     // if we did not find one, use IPv4 localhost
-    if (local_ipAddress.isEmpty())
+   if (local_ipAddress.isEmpty())
         local_ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
     qDebug() << "local_ipAddress = " << local_ipAddress;
     qDebug() << "local_port = " << local_port;
 
 
-    if (!tcp_server->listen(QHostAddress("192.168.0.232"), local_port)) {
+    if (!tcp_server->listen(QHostAddress(local_ipAddress), local_port)) {
         qDebug() << "Error tcp_server could not listen!!!";
         return;
     }
@@ -83,7 +59,7 @@ void LISTENS_THREAD::run()
     while (!server_finished) {
         if (tcp_server->waitForNewConnection(100)) {
             //qDebug() << "tcp_server::run: got a TCP connection\n";
-            process_mutex.lock();
+            //process_mutex.lock();
             while (tcp_server->hasPendingConnections()) {
             tcp_client = tcp_server->nextPendingConnection();
             tcp_client->waitForReadyRead(100);
@@ -95,7 +71,7 @@ void LISTENS_THREAD::run()
 
             tcp_client->close();
             tcp_client->abort();
-            process_mutex.unlock();
+            //process_mutex.unlock();
             }
 
         } else {
@@ -114,7 +90,9 @@ void SERVICE_THREAD::run()
             process_mutex.lock();
             q_str =  process_queue.front();
             process_queue.pop_front();
-            neomessage->addListData(q_str);
+
+            emit SendSomeData(q_str);
+
             process_mutex.unlock();
         }
         else {
@@ -184,7 +162,7 @@ int NSOCKET::InitSocket(QString CIP, int lp, int rp) {
 
 //******************************************************************************
 
-int NSOCKET::StartListenService() {
+int NSOCKET::StartListenService(MainWindow *mw) {
 
     if (server_started)
         return 0;
@@ -196,6 +174,14 @@ int NSOCKET::StartListenService() {
 
     lthread->start();
     sthread->start();
+
+    QObject::connect(
+                sthread,
+                SIGNAL(SendSomeData(QString)),
+                mw,
+                SLOT(MessageSlot(QString))
+                );
+
 
 	return 0;
 }

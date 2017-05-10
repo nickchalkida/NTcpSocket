@@ -13,8 +13,8 @@
 #include "ui_mainwindow.h"
 #include "N_SOCKET.h"
 
-Message *neomessage;
 NSOCKET *nsocket;
+int linecounter=0;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,18 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     nsocket = new NSOCKET();
-    neomessage = new Message();
-
-    QObject::connect(
-                neomessage,
-                SIGNAL(addListViewData(QVariant)),
-                //ui->listWidget,
-                //SLOT(on_listWidget_itemEntered(QListWidgetItem *item))
-                //ui->centralWidget,
-                this,
-                SLOT(mynewslot1(QVariant))
-                );
-
 }
 
 MainWindow::~MainWindow()
@@ -43,18 +31,34 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonSend_clicked()
 {
-    nsocket->Send_Message(ui->lineEdit->text(),ui->lineEditRIP->text(),ui->lineEditRPort->text().toInt());
+    int num = ui->lineEdit_Times->text().toInt();
+    for (int i=0; i<num; i++) {
+        nsocket->Send_Message(ui->lineEdit->text(),ui->lineEditRIP->text(),ui->lineEditRPort->text().toInt());
+        QApplication::processEvents();
+    }
 }
 
 void MainWindow::on_pushButtonStartListen_clicked()
 {
     nsocket->InitSocket(ui->lineEditRIP->text(),ui->lineEditLPort->text().toInt(),ui->lineEditRPort->text().toInt());
-    nsocket->StartListenService();
+    nsocket->StartListenService(this);
 }
 
-void MainWindow::mynewslot1(QVariant item){
-    QListWidgetItem *newItem = new QListWidgetItem;
-    QString qs = item.toString();
-    newItem->setText(qs);
-    ui->listWidget->addItem(newItem);
+void MainWindow::MessageSlot(QString item){
+    QString linestr = QString::number(++linecounter) + " " + item;
+    ui->listWidget->addItem(linestr);
+    QApplication::processEvents();
+}
+
+void MainWindow::on_pushButton_Clear_clicked()
+{
+    ui->listWidget->clear();
+    linecounter=0;
+}
+
+void MainWindow::on_pushButton_ChangePorts_clicked()
+{
+    QString tmpstr = ui->lineEditLPort->text();
+    ui->lineEditLPort->setText(ui->lineEditRPort->text());
+    ui->lineEditRPort->setText(tmpstr);
 }
